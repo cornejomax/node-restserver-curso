@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/', function(req, res) {
-    res.json('Hello World')
+    res.json('Hello World');
 })
 
 app.post('/usuario', function(req, res) {
