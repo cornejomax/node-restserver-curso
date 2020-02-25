@@ -1,4 +1,5 @@
 const express = require('express');
+var mongoose = require('mongoose');
 const app = express();
 require('./config/config');
 
@@ -8,24 +9,17 @@ app.use(bodyParser.urlencoded({ extended: false }))
     // parse application/json
 app.use(bodyParser.json())
 
-app.get('/', function(req, res) {
-    res.json('Hello World');
-})
+app.use(require('./routes/usuario'));
 
-app.post('/usuario', function(req, res) {
 
-    let body = req.body;
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es requerido'
-        });
-    } else {
-        res.json({
-            body
-        });
-    }
-})
+
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
+    (err, res) => {
+        if (err) throw err;
+
+        console.log('Database Online.');
+
+    });
 
 app.listen(process.env.PORT, () => {
     console.log('Escuchando puerto', process.env.PORT);
